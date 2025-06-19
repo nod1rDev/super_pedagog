@@ -15,6 +15,9 @@ import {
   Bell,
   Search,
   Sparkles,
+  Video,
+  Book,
+  GraduationCap,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,6 +27,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Header } from "@/components/header";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -55,24 +61,80 @@ const quickStats = [
     label: "Tanlovlar",
     value: "3",
     description: "Faol ishtirok",
+    color: "text-yellow-500",
+    bgColor: "bg-yellow-500/10",
+    href: "/app/competitions",
+    isAvailable: true,
   },
   {
     icon: BookOpen,
     label: "Kitoblar",
     value: "12",
     description: "O'qilgan",
+    color: "text-blue-500",
+    bgColor: "bg-blue-500/10",
+    href: "/app/library",
+    isAvailable: true,
   },
   {
     icon: FileText,
     label: "Maqolalar",
     value: "8",
     description: "Yozilgan",
+    color: "text-purple-500",
+    bgColor: "bg-purple-500/10",
+    href: "/app/articles",
+    isAvailable: true,
   },
   {
-    icon: Award,
-    label: "Badgelar",
-    value: "5",
-    description: "Olingan",
+    icon: Video,
+    label: "Videolar",
+    value: "15",
+    description: "Video darslar",
+    color: "text-red-500",
+    bgColor: "bg-red-500/10",
+    href: "/app/videos",
+    isAvailable: true,
+  },
+  {
+    icon: Book,
+    label: "Metodikalar",
+    value: "6",
+    description: "Metodik qo'llanmalar",
+    color: "text-green-500",
+    bgColor: "bg-green-500/10",
+    href: "/app/methods",
+    isAvailable: true,
+  },
+  {
+    icon: GraduationCap,
+    label: "Dissertatsiyalar",
+    value: "4",
+    description: "Ilmiy ishlar",
+    color: "text-indigo-500",
+    bgColor: "bg-indigo-500/10",
+    href: "/app/dissertations",
+    isAvailable: true,
+  },
+  {
+    icon: MessageCircle,
+    label: "Muhokamalar",
+    value: "25+",
+    description: "Forum mavzulari",
+    color: "text-pink-500",
+    bgColor: "bg-pink-500/10",
+    href: "/app/discussions",
+    isAvailable: true,
+  },
+  {
+    icon: Star,
+    label: "Yutuqlar",
+    value: "12",
+    description: "Erishilgan natijalar",
+    color: "text-amber-500",
+    bgColor: "bg-amber-500/10",
+    href: "/app/achievements",
+    isAvailable: true,
   },
 ];
 
@@ -121,6 +183,22 @@ const featuredContent = [
 ];
 
 export default function HomePage() {
+  const router = useRouter();
+
+  const handleStatClick = (stat: (typeof quickStats)[0]) => {
+    if (stat.isAvailable) {
+      router.push(stat.href);
+    } else {
+      toast.info("Bu sahifa tez orada qo'shiladi", {
+        description: `${stat.label} bo'limi ustida ishlanmoqda`,
+        action: {
+          label: "OK",
+          onClick: () => toast.dismiss(),
+        },
+      });
+    }
+  };
+
   return (
     <motion.div
       className="min-h-screen pb-24 bg-background"
@@ -133,7 +211,7 @@ export default function HomePage() {
       <div className="p-4 space-y-6">
         {/* Welcome Section */}
         <motion.section
-          variants={{itemVariants}}
+          variants={{ itemVariants }}
           className="text-center space-y-4"
         >
           <div className="flex items-center justify-center gap-3">
@@ -158,7 +236,7 @@ export default function HomePage() {
         </motion.section>
 
         {/* Search Bar */}
-        <motion.section variants={{itemVariants}}>
+        <motion.section variants={{ itemVariants }}>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
@@ -171,10 +249,10 @@ export default function HomePage() {
 
         {/* Quick Stats */}
         <motion.section
-          variants={{itemVariants}}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-3"
+          variants={{ itemVariants }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-3"
         >
-          {quickStats.map((stat, index) => {
+          {quickStats.map((stat) => {
             const Icon = stat.icon;
             return (
               <motion.div
@@ -183,21 +261,45 @@ export default function HomePage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="group"
+                onClick={() => handleStatClick(stat)}
               >
-                <Card className="text-center hover:shadow-lg transition-all duration-200 cursor-pointer">
+                <Card
+                  className={cn(
+                    "text-center transition-all duration-200 cursor-pointer",
+                    "hover:shadow-lg border border-border/50",
+                    !stat.isAvailable && "opacity-75 hover:opacity-100"
+                  )}
+                >
                   <CardContent className="p-4">
-                    <div className="w-12 h-12 rounded-xl bg-accent flex items-center justify-center mx-auto mb-3">
-                      <Icon className="h-6 w-6 text-accent-foreground" />
+                    <div
+                      className={cn(
+                        "w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3",
+                        stat.bgColor,
+                        "ring-2 ring-offset-2 ring-offset-background",
+                        stat.color
+                          .replace("text-", "ring-")
+                          .replace("/10", "/20")
+                      )}
+                    >
+                      <Icon className={cn("h-6 w-6", stat.color)} />
                     </div>
-                    <p className="text-2xl font-bold text-foreground mb-1">
+                    <p className={cn("text-2xl font-bold mb-1", stat.color)}>
                       {stat.value}
                     </p>
-                    <p className="text-xs font-medium text-foreground mb-1">
+                    <p className="text-sm font-medium text-foreground mb-1">
                       {stat.label}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {stat.description}
                     </p>
+                    {!stat.isAvailable && (
+                      <div className="mt-2 flex items-center justify-center gap-1">
+                        <Sparkles className="h-3 w-3 text-yellow-500 animate-pulse" />
+                        <span className="text-[10px] text-muted-foreground">
+                          Tez kunda
+                        </span>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </motion.div>
@@ -206,7 +308,7 @@ export default function HomePage() {
         </motion.section>
 
         {/* Featured Content */}
-        <motion.section variants={{itemVariants}} className="space-y-4">
+        <motion.section variants={{ itemVariants }} className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-foreground">
               Tavsiya etilgan
@@ -226,7 +328,7 @@ export default function HomePage() {
             return (
               <motion.div
                 key={index}
-                variants={{itemVariants}}
+                variants={{ itemVariants }}
                 whileHover={{ scale: 1.01 }}
                 className="cursor-pointer group"
               >
@@ -291,7 +393,7 @@ export default function HomePage() {
         </motion.section>
 
         {/* Progress Section */}
-        <motion.section variants={{itemVariants}}>
+        <motion.section variants={{ itemVariants }}>
           <Card className="bg-muted">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-foreground">
@@ -325,7 +427,7 @@ export default function HomePage() {
         </motion.section>
 
         {/* Recent Activities */}
-        <motion.section variants={{itemVariants}}>
+        <motion.section variants={{ itemVariants }}>
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2">
@@ -339,7 +441,7 @@ export default function HomePage() {
                 return (
                   <motion.div
                     key={index}
-                    variants={{itemVariants}}
+                    variants={{ itemVariants }}
                     className="flex items-center gap-3 p-3 rounded-xl bg-accent hover:bg-accent/80 transition-colors cursor-pointer"
                   >
                     <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-sm">
@@ -364,7 +466,7 @@ export default function HomePage() {
         </motion.section>
 
         {/* Monthly Book */}
-        <motion.section variants={{itemVariants}}>
+        <motion.section variants={{ itemVariants }}>
           <Card className="bg-accent">
             <CardHeader className="pb-3">
               <CardTitle className="text-foreground">
