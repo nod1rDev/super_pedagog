@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light Mode - Modern Educational Theme */
+    --background: 210 40% 98%; /* Cool white background */
+    --foreground: 222 47% 11%; /* Dark blue-grey text */
+
+    --card: 0 0% 100%; /* Pure white cards */
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 221 83% 53%; /* Vibrant blue primary */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 199 89% 48%; /* Complementary blue */
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 199 89% 48%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%; /* Softer red */
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
+
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    /* Dark Mode - Easy on Eyes */
+    --background: 222 47% 11%; /* Dark blue-grey background */
+    --foreground: 210 40% 98%;
+
+    --card: 223 47% 14%; /* Slightly lighter cards */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217 91% 60%; /* Brighter blue for contrast */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 199 89% 48%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 223 47% 14%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 199 89% 48%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 224 76% 48%;
+  }
+}
+
+/* Mobile Optimizations */
+@layer utilities {
+  /* Touch optimization utilities */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .mobile-container {
+    @apply px-4 py-3 max-w-screen-sm mx-auto;
+  }
+
+  /* Better touch targets */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  .mobile-scroll {
+    @apply overflow-x-auto scrollbar-none -mx-4 px-4;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Interactive Elements */
+@layer components {
+  /* Ripple effect for buttons */
+  .ripple {
+    @apply relative overflow-hidden;
+  }
+
+  .ripple::after {
+    @apply absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 
+           rounded-full bg-white/20 opacity-0 transition-all duration-500 ease-out 
+           content-[''];
+  }
+
+  .ripple:active::after {
+    @apply h-[300%] w-[300%] opacity-100;
+  }
+
+  /* Improved touch feedback */
+  .touch-feedback {
+    @apply transition-transform active:scale-95;
+  }
+
+  .mobile-card {
+    @apply rounded-xl border border-border/50 bg-card p-4 
+           shadow-sm transition-all active:scale-[0.98];
+  }
+
+  .mobile-button {
+    @apply touch-target rounded-lg bg-primary px-4 py-2 
+           text-sm font-medium text-primary-foreground
+           active:scale-[0.98] disabled:opacity-50;
+  }
+
+  .mobile-input {
+    @apply h-12 rounded-lg border border-input bg-background px-3 
+           text-base placeholder:text-muted-foreground focus:outline-none 
+           focus:ring-2 focus:ring-ring;
+  }
+}
