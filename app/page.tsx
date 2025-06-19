@@ -6,23 +6,98 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import {
+  FileText,
+  MessageCircle,
+  Sparkles,
+  Video,
+  Book,
+  GraduationCap,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const features = [
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+const quickStats = [
   {
-    icon: <Trophy className="h-8 w-8" />,
-    title: "Tanlovlar",
-    description:
-      "Pedagogika bo'yicha tanlovlarda ishtirok eting va sovrinlar yutib oling",
+    icon: Trophy,
+    label: "Tanlovlar",
+    value: "3",
+    description: "Faol ishtirok",
+    color: "text-yellow-500",
+    bgColor: "bg-yellow-500/10",
+    href: "/app/competitions",
+    isAvailable: true,
   },
   {
-    icon: <BookOpen className="h-8 w-8" />,
-    title: "Kutubxona",
-    description: "Pedagogik adabiyotlarning keng to'plamidan foydalaning",
+    icon: BookOpen,
+    label: "Kitoblar",
+    value: "12",
+    description: "O'qilgan",
+    color: "text-blue-500",
+    bgColor: "bg-blue-500/10",
+    href: "/app/library",
+    isAvailable: true,
   },
   {
-    icon: <Users className="h-8 w-8" />,
-    title: "Hamjamiyat",
-    description: "Boshqa pedagoglar bilan bog'laning va tajriba almashing",
+    icon: FileText,
+    label: "Maqolalar",
+    value: "8",
+    description: "Yozilgan",
+    color: "text-purple-500",
+    bgColor: "bg-purple-500/10",
+    href: "/app/articles",
+    isAvailable: true,
+  },
+  {
+    icon: Video,
+    label: "Videolar",
+    value: "15",
+    description: "Video darslar",
+    color: "text-red-500",
+    bgColor: "bg-red-500/10",
+    href: "/app/videos",
+    isAvailable: true,
+  },
+  {
+    icon: Book,
+    label: "Metodikalar",
+    value: "6",
+    description: "Metodik qo'llanmalar",
+    color: "text-green-500",
+    bgColor: "bg-green-500/10",
+    href: "/app/methods",
+    isAvailable: true,
+  },
+  {
+    icon: GraduationCap,
+    label: "Dissertatsiyalar",
+    value: "4",
+    description: "Ilmiy ishlar",
+    color: "text-indigo-500",
+    bgColor: "bg-indigo-500/10",
+    href: "/app/dissertations",
+    isAvailable: true,
+  },
+  {
+    icon: MessageCircle,
+    label: "Muhokamalar",
+    value: "25+",
+    description: "Forum mavzulari",
+    color: "text-pink-500",
+    bgColor: "bg-pink-500/10",
+    href: "/app/discussions",
+    isAvailable: true,
+  },
+  {
+    icon: Star,
+    label: "Yutuqlar",
+    value: "12",
+    description: "Erishilgan natijalar",
+    color: "text-amber-500",
+    bgColor: "bg-amber-500/10",
+    href: "/app/achievements",
+    isAvailable: true,
   },
 ];
 
@@ -32,8 +107,35 @@ const stats = [
   { number: "50+", label: "Oylik tanlovlar" },
   { number: "95%", label: "Foydalanuvchi mamnunligi" },
 ];
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 30,
+    },
+  },
+};
 
 export default function HomePage() {
+  const router = useRouter();
+
+  const handleStatClick = (stat: (typeof quickStats)[0]) => {
+    if (stat.isAvailable) {
+      router.push(stat.href);
+    } else {
+      toast.info("Bu sahifa tez orada qo'shiladi", {
+        description: `${stat.label} bo'limi ustida ishlanmoqda`,
+        action: {
+          label: "OK",
+          onClick: () => toast.dismiss(),
+        },
+      });
+    }
+  };
   return (
     <div className="pb-16">
       {/* Hero Section */}
@@ -74,49 +176,63 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-              Nima uchun Super Pedagog?
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Pedagogika sohasidagi eng yaxshi imkoniyatlar bir joyda
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
+      {/* Quick Stats */}
+      <motion.section
+        variants={{ itemVariants }}
+        className="grid grid-cols-2 mb-4 md:grid-cols-4 gap-3"
+      >
+        {quickStats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <motion.div
+              key={stat.label}
+              variants={{ itemVariants }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="group"
+              onClick={() => handleStatClick(stat)}
+            >
+              <Card
+                className={cn(
+                  "text-center transition-all duration-200 cursor-pointer",
+                  "hover:shadow-lg border border-border/50",
+                  !stat.isAvailable && "opacity-75 hover:opacity-100"
+                )}
               >
-                <Card className="h-full hover:shadow-lg transition-shadow">
-                  <CardContent className="p-6 text-center">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary flex items-center justify-center text-primary-foreground">
-                      {feature.icon}
+                <CardContent className="p-4">
+                  <div
+                    className={cn(
+                      "w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3",
+                      stat.bgColor,
+                      "ring-2 ring-offset-2 ring-offset-background",
+                      stat.color.replace("text-", "ring-").replace("/10", "/20")
+                    )}
+                  >
+                    <Icon className={cn("h-6 w-6", stat.color)} />
+                  </div>
+                  <p className={cn("text-2xl font-bold mb-1", stat.color)}>
+                    {stat.value}
+                  </p>
+                  <p className="text-sm font-medium text-foreground mb-1">
+                    {stat.label}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {stat.description}
+                  </p>
+                  {!stat.isAvailable && (
+                    <div className="mt-2 flex items-center justify-center gap-1">
+                      <Sparkles className="h-3 w-3 text-yellow-500 animate-pulse" />
+                      <span className="text-[10px] text-muted-foreground">
+                        Tez kunda
+                      </span>
                     </div>
-                    <h3 className="text-xl font-semibold mb-3 text-foreground">
-                      {feature.title}
-                    </h3>
-                    <p className="text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
+          );
+        })}
+      </motion.section>
 
       {/* Stats Section */}
       <section className="py-20 px-4 bg-muted">
