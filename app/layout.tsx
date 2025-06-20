@@ -56,7 +56,7 @@ export default function RootLayout({
   return (
     <html lang="uz" suppressHydrationWarning className={inter.variable}>
       <body className={inter.className}>
-        <ErrorBoundary>
+        {/* <ErrorBoundary>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
            
             <main className="min-h-[100svh] bg-background text-foreground antialiased pb-16">
@@ -64,7 +64,9 @@ export default function RootLayout({
             </main>
             <MobileNavigation />
           </ThemeProvider>
-        </ErrorBoundary>
+        </ErrorBoundary> */}
+
+        404
       </body>
     </html>
   );
