@@ -53,6 +53,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="uz" suppressHydrationWarning className={inter.variable}>
+      <head>
+        <link rel="icon" href="/logo.jpg" type="image/png" />
+      </head>
       <body className={inter.className}>
         <ErrorBoundary>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
