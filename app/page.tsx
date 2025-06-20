@@ -62,7 +62,7 @@ const quickStats = [
   {
     icon: Book,
     label: "Metodikalar",
-    value: "6",
+    value: "1",
     description: "Metodik qo'llanmalar",
     color: "text-green-500",
     bgColor: "bg-green-500/10",
@@ -79,26 +79,7 @@ const quickStats = [
     href: "/app/dissertations",
     isAvailable: true,
   },
-  {
-    icon: MessageCircle,
-    label: "Muhokamalar",
-    value: "25+",
-    description: "Forum mavzulari",
-    color: "text-pink-500",
-    bgColor: "bg-pink-500/10",
-    href: "/app/discussions",
-    isAvailable: true,
-  },
-  {
-    icon: Star,
-    label: "Yutuqlar",
-    value: "12",
-    description: "Erishilgan natijalar",
-    color: "text-amber-500",
-    bgColor: "bg-amber-500/10",
-    href: "/app/achievements",
-    isAvailable: true,
-  },
+ 
 ];
 
 const stats = [
@@ -333,8 +314,8 @@ export default function HomePage() {
                     className="h-4 mx-1 w-4 object-contain"
                   />{" "}
                   ApexBart Solutions
-                </span>{" "}
-                © 2024
+                </span>
+                
               </p>
             </a>
           </div>

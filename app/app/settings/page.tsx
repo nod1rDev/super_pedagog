@@ -299,8 +299,7 @@ export default function SettingsPage() {
                       className="h-4 mx-1 w-4 object-contain"
                     />{" "}
                     ApexBart Solutions
-                  </span>{" "}
-                  © 2024
+                  </span>
                 </p>
               </a>
             </div>

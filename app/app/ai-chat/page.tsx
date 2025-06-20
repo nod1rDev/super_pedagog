@@ -11,19 +11,10 @@ import {
   ArrowLeft,
   Bot,
   Sparkles,
-  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { ChevronUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const quickPrompts = [
@@ -48,17 +39,35 @@ export default function AiChatPage() {
   const router = useRouter();
   const [messages, setMessages] = useState<any[]>([]);
   const [input, setInput] = useState("");
-  const [isRecording, setIsRecording] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to bottom when new messages arrive
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  // Add effect to detect keyboard
+  useEffect(() => {
+    const handleResize = () => {
+      const isKeyboard = window.innerHeight < window.outerHeight * 0.75;
+      setIsKeyboardOpen(isKeyboard);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleSend = async (content: string) => {
-    if (!content.trim()) return;
+    if (!content.trim() || isLoading) return;
 
-    const newMessage: any = {
+    const newMessage = {
       id: Date.now().toString(),
-      content,
+      content: content.trim(),
       role: "user",
       timestamp: new Date(),
     };
@@ -67,136 +76,69 @@ export default function AiChatPage() {
     setInput("");
     setIsLoading(true);
 
-    try {
-      // AI response simulation
-      setTimeout(() => {
-        const response: any = {
-          id: (Date.now() + 1).toString(),
-          content: "Savolingiz qabul qilindi. Tez orada javob beraman.",
-          role: "assistant",
-          timestamp: new Date(),
-        };
-        setMessages((prev) => [...prev, response]);
-        setIsLoading(false);
-      }, 1000);
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    }
-  };
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Handle image upload
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const newMessage: any = {
-          id: Date.now().toString(),
-          content: "Rasm yuborildi",
-          role: "user",
-          timestamp: new Date(),
-          attachments: [e.target?.result as string],
-        };
-        setMessages((prev) => [...prev, newMessage]);
+    // AI response simulation
+    setTimeout(() => {
+      const response = {
+        id: (Date.now() + 1).toString(),
+        content: "Savolingiz qabul qilindi. Tez orada javob beraman.",
+        role: "assistant",
+        timestamp: new Date(),
       };
-      reader.readAsDataURL(file);
-    }
+      setMessages((prev) => [...prev, response]);
+      setIsLoading(false);
+    }, 1000);
   };
-
-  const handleVoice = () => {
-    if (!isRecording) {
-      // Start recording
-      setIsRecording(true);
-      // Add voice recording logic here
-    } else {
-      // Stop recording and send
-      setIsRecording(false);
-    }
-  };
-
-  // Avtomatik scroll
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: "smooth",
-      });
-    }
-  }, [messages]);
-
-  // Add viewport height adjustment
-  useEffect(() => {
-    const adjustViewportHeight = () => {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
-    };
-
-    adjustViewportHeight();
-    window.addEventListener("resize", adjustViewportHeight);
-    window.addEventListener("orientationchange", adjustViewportHeight);
-
-    return () => {
-      window.removeEventListener("resize", adjustViewportHeight);
-      window.removeEventListener("orientationchange", adjustViewportHeight);
-    };
-  }, []);
 
   return (
-    <div
-      className="flex flex-col relative"
-      style={{ height: "calc(var(--vh, 1vh) * 100 - 3rem)" }}
-    >
+    <main className="flex flex-col h-[100dvh] bg-background relative">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b">
-        <div className="flex h-12 items-center px-2 gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => router.back()}
-            className="hover:bg-transparent"
-          >
+      <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
+        <div className="flex h-14 items-center px-4 gap-3">
+          <Button variant="ghost" size="icon" onClick={() => router.back()}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
 
-          <div className="flex items-center gap-2 flex-1">
-            <div className="relative flex-shrink-0">
+          <div className="flex items-center gap-2">
+            <div className="relative">
               <Bot className="h-6 w-6 text-primary" />
               <Sparkles className="absolute -top-1 -right-1 h-3 w-3 text-yellow-400 animate-pulse" />
             </div>
-            <div className="flex flex-col min-w-0">
-              <span className="text-sm font-medium truncate">AI Yordamchi</span>
-              <span className="text-[10px] text-muted-foreground">
+            <div>
+              <h1 className="text-sm font-medium">AI Yordamchi</h1>
+              <p className="text-xs text-muted-foreground">
                 {isLoading ? "Yozmoqda..." : "Online"}
-              </span>
+              </p>
             </div>
           </div>
         </div>
 
         {/* Quick Prompts */}
-        <div className="flex gap-1.5 px-2 py-1.5 border-t overflow-x-auto scrollbar-none">
+        <div className="flex gap-2 p-2 overflow-x-auto">
           {quickPrompts.map((prompt) => (
             <Button
               key={prompt.title}
               variant="outline"
               size="sm"
               onClick={() => handleSend(prompt.prompt)}
-              className="flex-shrink-0 h-7 px-2.5 text-xs rounded-full border-primary/20 hover:bg-primary/5"
+              className="flex-none"
             >
-              <prompt.icon className="h-3 w-3 mr-1.5 text-primary" />
+              <prompt.icon className="h-4 w-4 mr-2" />
               {prompt.title}
             </Button>
           ))}
         </div>
-      </div>
+      </header>
 
-      {/* Messages */}
-      <ScrollArea
+      {/* Chat Area */}
+      <div
         ref={scrollRef}
-        className="flex-1 px-2 py-4 overflow-y-auto"
-        style={{ minHeight: 0 }}
+        className="flex-1 overflow-y-auto px-4"
+        style={{
+          paddingBottom: isKeyboardOpen ? "80px" : "120px",
+          paddingTop: "20px",
+        }}
       >
-        <div className="space-y-3 max-w-lg mx-auto">
+        <div className="max-w-2xl mx-auto space-y-4">
           {messages.map((msg) => (
             <div
               key={msg.id}
@@ -206,90 +148,52 @@ export default function AiChatPage() {
             >
               <div
                 className={`
-                  rounded-2xl px-4 py-2 max-w-[85%] shadow-sm
+                  max-w-[80%] rounded-lg px-4 py-2
                   ${
                     msg.role === "user"
                       ? "bg-primary text-primary-foreground"
-                      : "bg-white dark:bg-gray-800"
+                      : "bg-muted"
                   }
                 `}
               >
-                {msg.attachments?.map((att: string) => (
-                  <img
-                    key={att}
-                    src={att}
-                    alt="Attached"
-                    className="max-w-[200px] rounded-lg mb-2"
-                  />
-                ))}
-                <p className="text-[13px] leading-relaxed whitespace-pre-wrap">
-                  {msg.content}
-                </p>
-                <span className="text-[10px] opacity-70 mt-1 block">
-                  {new Date(msg.timestamp).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </span>
+                <p className="text-sm">{msg.content}</p>
+                <time className="text-xs opacity-70 mt-1 block">
+                  {new Date(msg.timestamp).toLocaleTimeString()}
+                </time>
               </div>
             </div>
           ))}
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="bg-white dark:bg-gray-800 rounded-2xl px-4 py-2 shadow-sm">
-                <Loader2 className="h-4 w-4 animate-spin" />
-              </div>
-            </div>
-          )}
         </div>
-      </ScrollArea>
+      </div>
 
-      {/* Input area */}
-      <div className="border-t bg-background p-2 sticky bottom-0 left-0 right-0">
-        <div className="flex items-center gap-1.5 max-w-lg mx-auto">
-          <input
-            type="file"
-            accept="image/*"
-            className="hidden"
-            ref={fileInputRef}
-            onChange={handleFileUpload}
-          />
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => fileInputRef.current?.click()}
-            className="h-9 w-9 rounded-full hover:bg-primary/5"
-          >
-            <Image className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleVoice}
-            className={`
-              h-9 w-9 rounded-full hover:bg-primary/5
-              ${isRecording ? "text-red-500 animate-pulse" : ""}
-            `}
-          >
-            <Mic className="h-4 w-4" />
-          </Button>
+      {/* Input Area - Updated positioning */}
+      <div
+        className={`
+          fixed left-0 right-0 
+          ${isKeyboardOpen ? "bottom-0" : "bottom-16"} 
+          border-t bg-background/95 backdrop-blur 
+          transition-all duration-200 ease-in-out
+          p-4 z-50
+        `}
+      >
+        <div className="max-w-2xl mx-auto flex gap-2">
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Xabar yozing..."
-            className="h-9 text-sm rounded-full border-primary/20 focus-visible:ring-primary/20"
             onKeyPress={(e) => e.key === "Enter" && handleSend(input)}
+            onFocus={() => setIsKeyboardOpen(true)}
+            onBlur={() => setIsKeyboardOpen(false)}
+            placeholder="Xabar yozing..."
+            className="flex-1 bg-background"
           />
           <Button
             onClick={() => handleSend(input)}
             disabled={!input.trim() || isLoading}
-            size="icon"
-            className="h-9 w-9 rounded-full"
           >
             <Send className="h-4 w-4" />
           </Button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
