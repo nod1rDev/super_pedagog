@@ -125,8 +125,28 @@ export default function AiChatPage() {
     }
   }, [messages]);
 
+  // Add viewport height adjustment
+  useEffect(() => {
+    const adjustViewportHeight = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+
+    adjustViewportHeight();
+    window.addEventListener("resize", adjustViewportHeight);
+    window.addEventListener("orientationchange", adjustViewportHeight);
+
+    return () => {
+      window.removeEventListener("resize", adjustViewportHeight);
+      window.removeEventListener("orientationchange", adjustViewportHeight);
+    };
+  }, []);
+
   return (
-    <div className="flex flex-col h-[calc(100dvh-3rem)] bg-gray-50 dark:bg-gray-900">
+    <div
+      className="flex flex-col relative"
+      style={{ height: "calc(var(--vh, 1vh) * 100 - 3rem)" }}
+    >
       {/* Header */}
       <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b">
         <div className="flex h-12 items-center px-2 gap-2">
@@ -171,7 +191,11 @@ export default function AiChatPage() {
       </div>
 
       {/* Messages */}
-      <ScrollArea ref={scrollRef} className="flex-1 px-2 py-4">
+      <ScrollArea
+        ref={scrollRef}
+        className="flex-1 px-2 py-4 overflow-y-auto"
+        style={{ minHeight: 0 }}
+      >
         <div className="space-y-3 max-w-lg mx-auto">
           {messages.map((msg) => (
             <div
@@ -221,7 +245,7 @@ export default function AiChatPage() {
       </ScrollArea>
 
       {/* Input area */}
-      <div className="border-t bg-background mb-3 p-2">
+      <div className="border-t bg-background p-2 sticky bottom-0 left-0 right-0">
         <div className="flex items-center gap-1.5 max-w-lg mx-auto">
           <input
             type="file"

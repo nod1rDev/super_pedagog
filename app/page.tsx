@@ -22,7 +22,7 @@ const quickStats = [
   {
     icon: Trophy,
     label: "Tanlovlar",
-    value: "3",
+    value: "4",
     description: "Faol ishtirok",
     color: "text-yellow-500",
     bgColor: "bg-yellow-500/10",
@@ -32,7 +32,7 @@ const quickStats = [
   {
     icon: BookOpen,
     label: "Kitoblar",
-    value: "12",
+    value: "1",
     description: "O'qilgan",
     color: "text-blue-500",
     bgColor: "bg-blue-500/10",
@@ -42,7 +42,7 @@ const quickStats = [
   {
     icon: FileText,
     label: "Maqolalar",
-    value: "8",
+    value: "3",
     description: "Yozilgan",
     color: "text-purple-500",
     bgColor: "bg-purple-500/10",
@@ -52,11 +52,11 @@ const quickStats = [
   {
     icon: Video,
     label: "Videolar",
-    value: "15",
+    value: "1",
     description: "Video darslar",
     color: "text-red-500",
     bgColor: "bg-red-500/10",
-    href: "/app/videos",
+    href: "/app/vedios",
     isAvailable: true,
   },
   {
@@ -298,7 +298,7 @@ export default function HomePage() {
       <footer className="py-12 px-4 border-t">
         <div className="max-w-6xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <BookOpen className="h-6 w-6 text-primary" />
+            <img src="/logo.jpg" className="w-6  rounded-md h-6" alt="" />
             <span className="text-xl font-bold text-foreground">
               Super Pedagog
             </span>
@@ -317,9 +317,27 @@ export default function HomePage() {
               4.9/5 (1,247 baho)
             </span>
           </div>
-          <p className="text-xs text-muted-foreground mt-8">
-            © 2024 Super Pedagog. Barcha huquqlar himoyalangan.
-          </p>
+          <div className="pt-2 border-t flex items-center justify-center gap-2">
+            <a
+              href="https://www.apexbart.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2  transition-colors group"
+            >
+              <p className="text-xs flex ">
+                Developed by{" "}
+                <span className="text-primary flex mr-1  hover:underline">
+                  <img
+                    src="/logo.png"
+                    alt="ApexBart"
+                    className="h-4 mx-1 w-4 object-contain"
+                  />{" "}
+                  ApexBart Solutions
+                </span>{" "}
+                © 2024
+              </p>
+            </a>
+          </div>
         </div>
       </footer>
     </div>

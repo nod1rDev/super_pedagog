@@ -13,10 +13,7 @@ export function Header() {
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm dark:border-gray-800">
       <div className="container flex h-12 items-center justify-between">
         <div className="flex items-center gap-2 mr-auto">
-          <BookOpen
-            className="h-5 w-5 text-blue-500 dark:text-blue-400"
-            strokeWidth={2.5}
-          />
+          <img src="/logo.jpg" className="w-[34px] rounded-md h-[34px]" alt="" />
           <span className="text-sm font-semibold dark:text-gray-200">
             Super Pedagog
           </span>
@@ -31,7 +28,7 @@ export function Header() {
               "bg-ai-gradient dark:bg-ai-gradient-dark",
               "text-white dark:text-white",
               "hover:opacity-90 transition-all duration-300",
-              
+
               "shadow-lg hover:shadow-xl",
               "rounded-full",
               "border border-blue-400/20 dark:border-blue-300/20"

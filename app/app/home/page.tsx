@@ -59,7 +59,7 @@ const quickStats = [
   {
     icon: Trophy,
     label: "Tanlovlar",
-    value: "3",
+    value: "4",
     description: "Faol ishtirok",
     color: "text-yellow-500",
     bgColor: "bg-yellow-500/10",
@@ -69,7 +69,7 @@ const quickStats = [
   {
     icon: BookOpen,
     label: "Kitoblar",
-    value: "12",
+    value: "1",
     description: "O'qilgan",
     color: "text-blue-500",
     bgColor: "bg-blue-500/10",
@@ -79,7 +79,7 @@ const quickStats = [
   {
     icon: FileText,
     label: "Maqolalar",
-    value: "8",
+    value: "3",
     description: "Yozilgan",
     color: "text-purple-500",
     bgColor: "bg-purple-500/10",
@@ -89,11 +89,11 @@ const quickStats = [
   {
     icon: Video,
     label: "Videolar",
-    value: "15",
+    value: "1",
     description: "Video darslar",
     color: "text-red-500",
     bgColor: "bg-red-500/10",
-    href: "/app/videos",
+    href: "/app/vedios",
     isAvailable: true,
   },
   {
