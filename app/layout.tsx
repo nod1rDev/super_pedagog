@@ -6,8 +6,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { MobileNavigation } from "@/components/mobile-navigation";
 import { ErrorBoundary } from "@/components/error-boundary";
 
-
-
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -56,17 +54,14 @@ export default function RootLayout({
   return (
     <html lang="uz" suppressHydrationWarning className={inter.variable}>
       <body className={inter.className}>
-        {/* <ErrorBoundary>
+        <ErrorBoundary>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-           
             <main className="min-h-[100svh] bg-background text-foreground antialiased pb-16">
               {children}
             </main>
             <MobileNavigation />
           </ThemeProvider>
-        </ErrorBoundary> */}
-
-        404
+        </ErrorBoundary>
       </body>
     </html>
   );
