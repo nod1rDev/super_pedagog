@@ -6,14 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import {
-  FileText,
-  MessageCircle,
-  Sparkles,
-  Video,
-  Book,
-  GraduationCap,
-} from "lucide-react";
+import { FileText, MessageCircle, Sparkles, Video, Book, GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { toast } from "sonner";
@@ -79,7 +72,6 @@ const quickStats = [
     href: "/dissertations",
     isAvailable: true,
   },
- 
 ];
 
 const stats = [
@@ -122,28 +114,15 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 px-4">
         <div className="relative max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <Badge className="mb-4 bg-primary text-primary-foreground">
-              O'zbekiston #1 Pedagogika Platformasi
-            </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-foreground">
-              Super Pedagog
-            </h1>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <Badge className="mb-4 bg-primary text-primary-foreground">O'zbekiston #1 Pedagogika Platformasi</Badge>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-foreground">Super Pedagog</h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              O'zbekiston pedagogika talabalar uchun zamonaviy ta'lim
-              platformasi. Bilim oling, tanlovlarda ishtirok eting va
-              karyerangizni rivojlantiring.
+              O'zbekiston pedagogika talabalar uchun zamonaviy ta'lim platformasi. Bilim oling, tanlovlarda ishtirok eting va karyerangizni rivojlantiring.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/home">
-                <Button
-                  size="lg"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90"
-                >
+                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
                   Boshlash
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
@@ -158,10 +137,7 @@ export default function HomePage() {
       </section>
 
       {/* Quick Stats */}
-      <motion.section
-        variants={{ itemVariants }}
-        className="grid grid-cols-2 mb-4 md:grid-cols-4 gap-3"
-      >
+      <motion.section variants={{ itemVariants }} className="grid grid-cols-2 mb-4 md:grid-cols-4 gap-3">
         {quickStats.map((stat) => {
           const Icon = stat.icon;
           return (
@@ -191,21 +167,13 @@ export default function HomePage() {
                   >
                     <Icon className={cn("h-6 w-6", stat.color)} />
                   </div>
-                  <p className={cn("text-2xl font-bold mb-1", stat.color)}>
-                    {stat.value}
-                  </p>
-                  <p className="text-sm font-medium text-foreground mb-1">
-                    {stat.label}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {stat.description}
-                  </p>
+                  <p className={cn("text-2xl font-bold mb-1", stat.color)}>{stat.value}</p>
+                  <p className="text-sm font-medium text-foreground mb-1">{stat.label}</p>
+                  <p className="text-xs text-muted-foreground">{stat.description}</p>
                   {!stat.isAvailable && (
                     <div className="mt-2 flex items-center justify-center gap-1">
                       <Sparkles className="h-3 w-3 text-yellow-500 animate-pulse" />
-                      <span className="text-[10px] text-muted-foreground">
-                        Tez kunda
-                      </span>
+                      <span className="text-[10px] text-muted-foreground">Tez kunda</span>
                     </div>
                   )}
                 </CardContent>
@@ -218,15 +186,8 @@ export default function HomePage() {
       {/* Stats Section */}
       <section className="py-20 px-4 bg-muted">
         <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-              Bizning Yutuqlarimiz
-            </h2>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Bizning Yutuqlarimiz</h2>
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -238,9 +199,7 @@ export default function HomePage() {
                 transition={{ duration: 0.8, delay: index * 0.1 }}
                 className="text-center"
               >
-                <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
-                  {stat.number}
-                </div>
+                <div className="text-4xl md:text-5xl font-bold text-primary mb-2">{stat.number}</div>
                 <div className="text-muted-foreground">{stat.label}</div>
               </motion.div>
             ))}
@@ -251,22 +210,11 @@ export default function HomePage() {
       {/* CTA Section */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-              Bugun o'z ta'lim sayohatingizni boshlang
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8">
-              Minglab pedagoglar bizga ishonib, o'z bilimlarini oshirmoqda
-            </p>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">Bugun o'z ta'lim sayohatingizni boshlang</h2>
+            <p className="text-xl text-muted-foreground mb-8">Minglab pedagoglar bizga ishonib, o'z bilimlarini oshirmoqda</p>
             <Link href="/home">
-              <Button
-                size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90"
-              >
+              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
                 Bepul ro'yxatdan o'tish
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -279,43 +227,23 @@ export default function HomePage() {
       <footer className="py-12 px-4 border-t">
         <div className="max-w-6xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <img src="/logo.jpg" className="w-6  rounded-md h-6" alt="" />
-            <span className="text-xl font-bold text-foreground">
-              Super Pedagog
-            </span>
+            <img src="/teacher/logo.jpg" className="w-6  rounded-md h-6" alt="" />
+            <span className="text-xl font-bold text-foreground">Super Pedagog</span>
           </div>
-          <p className="text-muted-foreground mb-4">
-            O'zbekiston pedagogika talabalar uchun zamonaviy ta'lim platformasi
-          </p>
+          <p className="text-muted-foreground mb-4">O'zbekiston pedagogika talabalar uchun zamonaviy ta'lim platformasi</p>
           <div className="flex items-center justify-center gap-1">
             {[1, 2, 3, 4, 5].map((star) => (
-              <Star
-                key={star}
-                className="h-4 w-4 fill-yellow-400 text-yellow-400"
-              />
+              <Star key={star} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
             ))}
-            <span className="ml-2 text-sm text-muted-foreground">
-              4.9/5 (1,247 baho)
-            </span>
+            <span className="ml-2 text-sm text-muted-foreground">4.9/5 (1,247 baho)</span>
           </div>
           <div className="pt-2 border-t flex items-center justify-center gap-2">
-            <a
-              href="https://www.apexbart.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2  transition-colors group"
-            >
+            <a href="https://www.apexbart.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2  transition-colors group">
               <p className="text-xs flex ">
                 Developed by{" "}
                 <span className="text-primary flex mr-1  hover:underline">
-                  <img
-                    src="/logo.png"
-                    alt="ApexBart"
-                    className="h-4 mx-1 w-4 object-contain"
-                  />{" "}
-                  ApexBart Solutions
+                  <img src="/teacher/logo.png" alt="ApexBart" className="h-4 mx-1 w-4 object-contain" /> ApexBart Solutions
                 </span>
-                
               </p>
             </a>
           </div>

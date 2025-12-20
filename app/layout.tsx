@@ -14,16 +14,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Super Pedagog - Ta'lim Platformasi",
-  description:
-    "O'zbekiston pedagogika talabalari uchun zamonaviy ta'lim platformasi",
-  keywords: [
-    "pedagogika",
-    "ta'lim",
-    "o'zbekiston",
-    "talaba",
-    "kitob",
-    "maqola",
-  ],
+  description: "O'zbekiston pedagogika talabalari uchun zamonaviy ta'lim platformasi",
+  keywords: ["pedagogika", "ta'lim", "o'zbekiston", "talaba", "kitob", "maqola"],
   authors: [{ name: "Super Pedagog Team" }],
   creator: "Super Pedagog",
   publisher: "Super Pedagog",
@@ -46,22 +38,16 @@ export const metadata: Metadata = {
   generator: "v0.dev",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="uz" suppressHydrationWarning className={inter.variable}>
       <head>
-        <link rel="icon" href="/logo.jpg" type="image/png" />
+        <link rel="icon" href="/teacher/logo.jpg" type="image/png" />
       </head>
       <body className={inter.className}>
         <ErrorBoundary>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <main className="min-h-[100svh] bg-background text-foreground antialiased pb-16">
-              {children}
-            </main>
+            <main className="min-h-[100svh] bg-background text-foreground antialiased pb-16">{children}</main>
             <MobileNavigation />
           </ThemeProvider>
         </ErrorBoundary>

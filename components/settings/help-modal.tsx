@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { BookOpen, Mail, Phone, Globe } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { BookOpen, Mail, Phone, Globe } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface HelpModalProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
 export function HelpModal({ open, onOpenChange }: HelpModalProps) {
@@ -23,7 +23,7 @@ export function HelpModal({ open, onOpenChange }: HelpModalProps) {
         <div className="space-y-6 py-4">
           {/* Logo va asosiy ma'lumot */}
           <div className="text-center space-y-3">
-            <img src="/logo.jpg" alt="Super Pedagog" className="h-20 w-20 rounded-xl mx-auto" />
+            <img src="/teacher/logo.jpg" alt="Super Pedagog" className="h-20 w-20 rounded-xl mx-auto" />
             <div>
               <h3 className="font-bold text-xl text-foreground">Super Pedagog</h3>
               <p className="text-sm text-muted-foreground">Versiya 1.0.0</p>
@@ -34,9 +34,8 @@ export function HelpModal({ open, onOpenChange }: HelpModalProps) {
           <div className="bg-muted p-4 rounded-lg space-y-2">
             <h4 className="font-semibold text-foreground">Platforma haqida</h4>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Super Pedagog - bu O'zbekiston pedagogika talabalari uchun maxsus ishlab chiqilgan zamonaviy ta'lim
-              platformasi. Platforma orqali siz pedagogika sohasidagi eng so'nggi maqolalar, metodikalar, kitoblar va
-              videolardan foydalanishingiz mumkin.
+              Super Pedagog - bu O'zbekiston pedagogika talabalari uchun maxsus ishlab chiqilgan zamonaviy ta'lim platformasi. Platforma orqali siz pedagogika sohasidagi eng
+              so'nggi maqolalar, metodikalar, kitoblar va videolardan foydalanishingiz mumkin.
             </p>
           </div>
 
@@ -48,7 +47,7 @@ export function HelpModal({ open, onOpenChange }: HelpModalProps) {
                 <span className="text-primary mt-0.5">•</span>
                 <span>Pedagogika sohasidagi maqolalar va tadqiqotlar</span>
               </li>
-             
+
               <li className="flex items-start gap-2">
                 <span className="text-primary mt-0.5">•</span>
                 <span>O'quv metodikalari va qo'llanmalar</span>
@@ -88,10 +87,8 @@ export function HelpModal({ open, onOpenChange }: HelpModalProps) {
               </Button>
             </div>
           </div>
-
-          
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

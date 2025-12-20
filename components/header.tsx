@@ -13,10 +13,8 @@ export function Header() {
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm dark:border-gray-800">
       <div className="container flex h-12 items-center justify-between">
         <div className="flex items-center gap-2 mr-auto">
-          <img src="/logo.jpg" className="w-[34px] rounded-md h-[34px]" alt="" />
-          <span className="text-sm font-semibold dark:text-gray-200">
-            Super Pedagog
-          </span>
+          <img src="/teacher/logo.jpg" className="w-[34px] rounded-md h-[34px]" alt="" />
+          <span className="text-sm font-semibold dark:text-gray-200">Super Pedagog</span>
         </div>
 
         <Link href="/app/ai-chat">
@@ -34,18 +32,9 @@ export function Header() {
               "border border-blue-400/20 dark:border-blue-300/20"
             )}
           >
-            <MessageSquareText
-              className="h-4 w-4 mr-1.5 animate-pulse-soft"
-              strokeWidth={2.5}
-            />
+            <MessageSquareText className="h-4 w-4 mr-1.5 animate-pulse-soft" strokeWidth={2.5} />
             <span className="text-xs font-medium">AI Yordamchi</span>
-            <Sparkles
-              className={cn(
-                "absolute -top-1 -right-1 h-3 w-3",
-                "text-yellow-300 dark:text-yellow-200",
-                "animate-pulse-soft"
-              )}
-            />
+            <Sparkles className={cn("absolute -top-1 -right-1 h-3 w-3", "text-yellow-300 dark:text-yellow-200", "animate-pulse-soft")} />
           </Button>
         </Link>
       </div>
