@@ -9,35 +9,35 @@ import { useTheme } from "next-themes";
 const navItems = [
   {
     icon: Home,
-    href: "/app/home",
+    href: "/home",
     label: "Home",
     labelUz: "Bosh sahifa",
     activeColor: "text-blue-500 dark:text-blue-400",
   },
   {
     icon: Trophy,
-    href: "/app/competitions",
+    href: "/competitions",
     label: "Competitions",
     labelUz: "Tanlovlar",
     activeColor: "text-yellow-500 dark:text-yellow-400",
   },
   {
     icon: Bookmark,
-    href: "/app/bookmarks",
+    href: "/bookmarks",
     label: "Library",
     labelUz: "Kutubxona",
     activeColor: "text-green-500 dark:text-green-400",
   },
   {
     icon: FileText,
-    href: "/app/articles",
+    href: "/articles",
     label: "Articles",
     labelUz: "Maqolalar",
     activeColor: "text-purple-500 dark:text-purple-400",
   },
   {
     icon: Settings,
-    href: "/app/settings",
+    href: "/settings",
     label: "Settings",
     labelUz: "Sozlamalar",
     activeColor: "text-gray-500 dark:text-gray-400",
@@ -47,6 +47,10 @@ const navItems = [
 export function MobileNavigation() {
   const pathname = usePathname();
   const { theme } = useTheme();
+
+  if (pathname === "/login" || pathname === "/register" || pathname.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur-sm safe-bottom dark:border-gray-800">
