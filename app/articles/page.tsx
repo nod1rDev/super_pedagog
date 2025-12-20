@@ -8,16 +8,20 @@ import {
   Calendar,
   Clock,
   FileDown,
+  Search,
 } from "lucide-react";
+import { useMemo, useState } from "react";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useArticles } from "@/hooks/use-articles";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { BASE_URL } from "@/lib/BASE_URL";
+import { useArticles } from "@/hooks/use-articles";
 
 export default function ArticlesPage() {
   const { articles, isLoading } = useArticles();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("uz-UZ", {
@@ -34,6 +38,23 @@ export default function ArticlesPage() {
     return `${minutes} daqiqa`;
   };
 
+  const filteredArticles = useMemo(() => {
+    return articles.filter((article: any) =>
+      article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      article.description?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [articles, searchQuery]);
+
+  const totalViews = filteredArticles.reduce(
+    (acc: number, item: any) => acc + (item.views || 0),
+    0
+  );
+
+  const totalDownloads = filteredArticles.reduce(
+    (acc: number, item: any) => acc + (item.downloads || 0),
+    0
+  );
+
   return (
     <motion.div
       className="min-h-screen pb-24 bg-background p-4 space-y-6"
@@ -41,34 +62,82 @@ export default function ArticlesPage() {
       animate={{ opacity: 1 }}
     >
       {/* Header */}
-      <div className="flex items-center justify-center mb-6">
-        <div>
-          <h1 className="text-2xl text-center font-bold text-foreground">
-            Ilmiy maqolalar
-          </h1>
-          <p className="text-sm text-center text-muted-foreground">
-            Pedagogika sohasidagi so'nggi tadqiqotlar
-          </p>
+      <div className="text-center space-y-2">
+        <h1 className="text-3xl font-bold text-foreground">
+          Ilmiy maqolalar
+        </h1>
+        <p className="text-muted-foreground">
+          Pedagogika sohasidagi so'nggi tadqiqotlar
+        </p>
+      </div>
+
+      {/* Search */}
+      <div className="flex gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Maqola nomi yoki tavsifi bo‘yicha qidiring..."
+            className="pl-10"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
       </div>
 
-      {/* PDF Articles Grid */}
+      {/* Stats */}
+      <div className="grid grid-cols-3 gap-3">
+        <Card className="text-center">
+          <CardContent className="p-3">
+            <FileText className="h-6 w-6 text-primary mx-auto mb-1" />
+            <p className="text-lg font-bold">
+              {filteredArticles.length}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Jami maqolalar
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="text-center">
+          <CardContent className="p-3">
+            <Eye className="h-6 w-6 text-primary mx-auto mb-1" />
+            <p className="text-lg font-bold">{totalViews}</p>
+            <p className="text-xs text-muted-foreground">
+              Ko‘rishlar
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="text-center">
+          <CardContent className="p-3">
+            <Download className="h-6 w-6 text-primary mx-auto mb-1" />
+            <p className="text-lg font-bold">
+              {totalDownloads}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Yuklab olingan
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Articles Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {isLoading ? (
           <div className="col-span-full text-center py-8">
             <p className="text-muted-foreground">Yuklanmoqda...</p>
           </div>
-        ) : articles.length === 0 ? (
-          <Card className="text-center space-y-2">
-            <h3 className="text-3xl font-bold text-foreground">
+        ) : filteredArticles.length === 0 ? (
+          <Card className="text-center p-6">
+            <h3 className="text-xl font-bold">
               Maqolalar topilmadi
             </h3>
             <p className="text-muted-foreground">
-              Hozircha maqolalar mavjud emas
+              Qidiruv bo‘yicha natija yo‘q
             </p>
           </Card>
         ) : (
-          articles.map((article: any) => (
+          filteredArticles.map((article: any) => (
             <Card
               key={article.id}
               className="overflow-hidden hover:shadow-lg transition-all"
@@ -113,7 +182,7 @@ export default function ArticlesPage() {
                     <Dialog>
                       <DialogContent className="max-w-4xl h-[80vh]">
                         <iframe
-                          src={`${article.pdf_url}`}
+                          src={article.pdf_url}
                           className="w-full h-full"
                           title={article.title}
                         />
@@ -121,10 +190,9 @@ export default function ArticlesPage() {
                     </Dialog>
 
                     <Button
-                      variant="default"
                       size="sm"
                       onClick={() =>
-                        window.open(`${article.pdf_url}`, "_blank")
+                        window.open(article.pdf_url)
                       }
                     >
                       <Download className="h-4 w-4 mr-1" />

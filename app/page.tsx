@@ -20,7 +20,7 @@ export default function HomePage() {
       if (userData && userData.isAdmin) {
         router.push("/admin")
       } else {
-        router.push("/user")
+        router.push("/home")
       }
     } catch (error) {
       console.error("JSON parse error:", error)

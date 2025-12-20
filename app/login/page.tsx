@@ -60,7 +60,8 @@ export default function LoginPage() {
         if (response.data.user.isAdmin) {
           router.push("/admin");
         } else {
-          router.push("/user");
+          router.push("/home");
+          
         }
       } else {
         toast({
