@@ -145,9 +145,9 @@ export default function BooksPage() {
                     <CardContent className="p-4">
                       <div className="flex gap-4">
                         {/* Cover Image */}
-                        {book.cover_image ? (
+                        {book.image ? (
                           <img
-                            src={`${book.cover_image}`}
+                            src={`${book.image}`}
                             className="w-16 h-20 rounded-lg object-cover"
                             alt={book.title}
                           />
