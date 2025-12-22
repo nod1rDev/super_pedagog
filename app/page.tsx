@@ -11,22 +11,29 @@ export default function HomePage() {
     const user = localStorage.getItem("user")
 
     if (!token || !user || user === "undefined") {
-      router.push("/login")
+      router.replace("/login")
       return
     }
 
     try {
       const userData = JSON.parse(user)
-      if (userData && userData.isAdmin) {
-        router.push("/admin")
-      } else {
-        router.push("/home")
+
+      if (userData?.is_admin) {
+        router.replace("/admin/articles")
+        return
       }
+
+      if (userData?.role === "teacher") {
+        router.replace("/teacher")
+        return
+      }
+
+      router.replace("/home")
     } catch (error) {
       console.error("JSON parse error:", error)
       localStorage.removeItem("token")
       localStorage.removeItem("user")
-      router.push("/login")
+      router.replace("/login")
     }
   }, [router])
 

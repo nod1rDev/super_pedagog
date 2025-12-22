@@ -57,8 +57,8 @@ export default function LoginPage() {
           description: "Tizimga muvaffaqiyatli kirdingiz",
         });
         console.log(response);
-        if (response.data.user.isAdmin) {
-          router.push("/admin");
+        if (response.data.user.is_admin) {
+          router.push("/admin/articles");
         } else {
           router.push("/home");
           

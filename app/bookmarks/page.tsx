@@ -147,7 +147,7 @@ export default function BooksPage() {
                         {/* Cover Image */}
                         {book.cover_image ? (
                           <img
-                            src={`${BASE_URL}${book.cover_image}`}
+                            src={`${book.cover_image}`}
                             className="w-16 h-20 rounded-lg object-cover"
                             alt={book.title}
                           />
